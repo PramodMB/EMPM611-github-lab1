@@ -4,28 +4,21 @@ import search
 import json
 
 def main():
-    csv_file_path = 'data.csv'
     json_file_path = 'data.json'
     
-                  # Step 1: Read CSV
-    csv_data = read_csv.read_csv("files/google_review_ratings.csv")
+    # Load existing JSON data from file
+    with open(json_file_path, 'r') as json_file:
+        json_data = json.load(json_file)
     
-                  # Step 2: Convert to JSON
-    json_data = json_converter.convert_to_json(csv_data)
+    # Step 4: Search in JSON
+    search_string = input("Enter the user (e.g., 'User 149') to search in the JSON data: ")
+    search_result = search.search_json(json_data, search_string)
     
-                  # Step 3: Save JSON to file
-    json_converter.save_json_to_file(json_data, json_file_path)
-    
-    # Print JSON data
-    print("JSON Data:\n", json_data)
-    
-    # uncomment the search_string and search_results once you implement search module
-                  # Step 4: Search in JSON
-    # search_string = input("Enter a string to search in the JSON data: ")
-    # search_results = search.search_json(json.loads(json_data), search_string)
-    
-                  # Print search results
-    # print("Search Results:\n", json.dumps(search_results, indent=4))
+    # Print search results
+    if search_result:
+        print("Search Result:\n", json.dumps(search_result, indent=4))
+    else:
+        print(f"User '{search_string}' not found in the JSON data.")
 
 if __name__ == "__main__":
     main()
